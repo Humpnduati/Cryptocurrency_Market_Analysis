@@ -1,0 +1,3 @@
+group,coins,spikes_count,pct_up,median_mag_pct,mean_mag_pct,high_vol_regime_share,median_vol_z
+Top5 volatile,"FRAX,TEL,USDX,BEAM,CFX",176,0.5454545454545454,8.17665252739483,14.725288799243714,0.005681818181818182,-0.07972516663873155
+Bottom5 stable,"USDT,WETH,BUSD,FDUSD,USDC",0,,,,,

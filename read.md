@@ -6,7 +6,7 @@ Project: Cryptocurrency Temporal & Volatility Crypto Data Analysis
 
 Overview
 
-This repository runs a pipeline that ingests hourly cryptocurrency price and volume data, computes intraday patterns, rolling volatility, event impact analysis, volume-volatility relationships, and drawdowns, and exports plots and CSVs for downstream reporting and presentation.
+This repository runs a pipeline that ingests hourly cryptocurrency price and volume data, computes intraday patterns, Price Spikes analysis, event impact analysis and exports plots for downstream reporting and presentation.
 
 Data
 
@@ -27,47 +27,29 @@ Pipeline steps
    - Hourly returns: return_t = price_t / price_t-1 - 1
    - Log returns where relevant
 
-3. Intraday patterns (Question 1)
-   - Aggregate average hourly returns and average volume by hour-of-day for each coin
-   - Save per-coin plots and combined visualizations to outputs/plots/01_intraday_*.png
-   - Save summary CSVs to outputs/csvs/intraday_summary_*.csv
+3. Intraday patterns / Hourly Trends  (Question 1)
+   - Compute average daily volume to identify top 5 & bottom 5 coins
+   - Compute best trades for top 5 * bottom 5 coins
+   - Create comprehensive visualizations & plots
 
-4. Event impact analysis (Question 2)
-   - If an event_time column is present, compute price/volume changes before and after events, and plot event-aligned windows
-   - If event_time is missing, step is skipped with a warning. Outputs are saved under outputs/plots/02_event_impact_* if available
+4. Stable coins vs. Volatile price movements (Question 2)
+   - Compute daily price range & volatility for identification of stable & volatile coins
+   - Compute volatility comparison
+   - Compute price movement patterns
+   - Compute daily volatility patterns
+   - Compute volatility distribution
 
-5. Rolling volatility (Question 3)
-   - Compute rolling standard deviation of hourly returns over a 24-hour window (or configurable window)
-   - Save CSV: outputs/csvs/rolling_volatility_hourly_24h.csv
-   - Save plots per coin under outputs/plots/03_rolling_volatility_*
+5. Price Spikes Analysis (Question 3)
+   - Compute volume analysis
+   - Compute spike detection
+   - Compute hourly spikes
+   - Compute spike magnitutdes
+   - Compute spike direction
+   - Compute time categories
 
-6. Volume-volatility relationship (Question 4)
-   - Compute correlation between volume and absolute returns by coin and by hour buckets
-   - Fit simple linear models where appropriate and save results to outputs/csvs/volume_volatility_relationship.csv
-   - Save companion plots to outputs/plots/04_volume_volatility_*
-
-7. Drawdowns (Question 5)
-   - Compute peak-to-trough drawdowns per coin, duration, and recovery times
-   - Save CSV: outputs/csvs/drawdowns_summary.csv and plots under outputs/plots/05_drawdowns_*
-
-Errors and troubleshooting
-
-- During the last run a KeyError occurred in the rolling volatility step when selecting columns for the final output. This usually indicates a rename/merge mismatch. To fix:
-  - Inspect intermediate dataframe columns (df.columns)
-  - Ensure the rolling series is renamed to rolling_vol and merged properly on coin + timestamp
-  - Use reset_index() carefully to preserve timestamp as a column
-
-- If event impact is skipped, check for an event_time column or provide an events CSV with columns: coin, event_time, event_type, description
 
 Outputs produced in the recent run
 
-- Many plots and CSVs were produced under outputs/plots/ and outputs/csvs/. Example paths created by the pipeline (these are representative and were generated during the run):
-  - outputs/plots/01_intraday_BTC.png
-  - outputs/plots/03_rolling_volatility_BTC.png
-  - outputs/csvs/intraday_summary_top_coins.csv
-  - outputs/csvs/drawdowns_summary.csv
-
-Note: The pipeline logged a KeyError in the rolling volatility step which prevented creation of the rolling_volatility_hourly_24h.csv in that run. Choose to re-run the pipeline with a fix to regenerate the missing files.
 
 How to reproduce locally
 
@@ -82,5 +64,5 @@ How to reproduce locally
 Contact
 
 - Assistant: Nduati Githu(nduatihump@gmail.com)
-- For support: team@julius.ai
+
 
